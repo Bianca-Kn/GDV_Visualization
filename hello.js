@@ -15,13 +15,13 @@ function main() {
         yScale = d3.scaleLinear().range([height, 0]);
 
     var g = svg.append("g")
-        .attr("transform", "translate(" + 100 + "," + 100 + ")");
+       .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
     d3.csv("csv_mavi_sum.csv").then( function(data) {
-        xScale.domain(data.map(function(d) { return d.timestamp }));
+        xScale.domain(data.map(function(d) { return (d).timestamp }));
         yScale.domain([0, d3.max(data, function(d) { return 300000; })]);
 
-        g.append("g")
+      /*  g.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(xScale))
             .append("text")
@@ -30,11 +30,11 @@ function main() {
             .attr("text-anchor", "end")
             .attr("stroke", "black")
             .text("timestamp");
-
+        */
         g.append("g")
-            .attr("class", "x axis")
+            //.attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale))
+            .call(d3.axisBottom(xScale).tickFormat(function(d){return d;}).ticks(10))
             .selectAll("text")
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
@@ -47,7 +47,7 @@ function main() {
             .append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", 10)
-            .attr('dy', '-5em')
+            .attr('dy', '0em')
             .attr('text-anchor', 'end')
             .attr('stroke', 'black')
             .text('Anzahl Fahrzeuge')
@@ -80,7 +80,8 @@ function main() {
         d3.select('#tooltip')
             .style('left', xPos + 'px')
             .style('top', yPos + 'px')
-            .select('#value').text(i.value)
+            .text("Am " + i.timestamp + " fuhren " + i.value + " Fahrzeuge")
+
 
         d3.select('#tooltip').classed('hidden', false);
 
@@ -90,13 +91,13 @@ function main() {
             .transition() // I want to add animnation here
             .duration(500)
             .attr('width',function(d) {return weight - xScale(d.timestamp)})
-            .attr('y', function(d){return yScale(d.value) - 10;})
+            .attr('y', function(d){return yScale(d.value);})
             .attr('height', function(d){return height - yScale(d.value) + 10;})
 
     }
 
     // Mouseout event handler
-    function onMouseOut(d, i){
+   function onMouseOut(d, i){
         d3.select(this).attr('class','bar')
         d3.select(this)
             .transition()
