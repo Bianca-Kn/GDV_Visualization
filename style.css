@@ -1,16 +1,16 @@
 .bar{
-    fill: navy;
+    fill: cadetblue;
 }
 .highlight{
-    fill:palevioletred
+    fill:darkred;
 }
 #tooltip{
     position: absolute;
-    width: 200px;
+    width: 150px;
     height: auto;
     padding: 10px;
-    background-color: blanchedalmond;
-    -webkit-border-radius: 10px;
+    background-color: indianred;
+    -webkit-border-radius: 5px;
     -moz-border-radius: 10px;
     border-radius: 10px;
     -webkit-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
@@ -23,7 +23,7 @@
 }
 #tooltip p{
     margin: 0;
-    font-family: sans-serif;
+    font-family: Arial;
     font-size: 16px;
     line-height: 20px;
 }

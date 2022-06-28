@@ -11,7 +11,7 @@ function main() {
         .attr("font-size", "24px")
         .text("Fahrzeuge/Tag")
 
-    var xScale = d3.scaleBand().range([0, width]).padding(0.2),
+    var xScale = d3.scaleBand().range([0, width]).padding(0.1),
         yScale = d3.scaleLinear().range([height, 0]);
 
     var g = svg.append("g")
@@ -34,7 +34,7 @@ function main() {
         g.append("g")
             //.attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale).tickFormat(function(d){return d;}).ticks(10))
+            .call(d3.axisBottom(xScale))
             .selectAll("text")
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
@@ -51,6 +51,16 @@ function main() {
             .attr('text-anchor', 'end')
             .attr('stroke', 'black')
             .text('Anzahl Fahrzeuge')
+
+        g.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "green")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function(d) { return xScale(d.timestamp) })
+                .y(function(d) { return yScale(d.value) })
+            )
 
         g.selectAll(".bar")
             .data(data)
@@ -69,6 +79,7 @@ function main() {
             .attr("height", function(d) { return height - yScale(d.value); });
     })
 
+
     // Mouseover event handler
 
     function onMouseOver(d, i) {
@@ -80,7 +91,7 @@ function main() {
         d3.select('#tooltip')
             .style('left', xPos + 'px')
             .style('top', yPos + 'px')
-            .text("Am " + i.timestamp + " fuhren " + i.value + " Fahrzeuge")
+            .text("Zeitpunkt: " + i.timestamp + " Anzahl Fahrzeuge: " + i.value)
 
 
         d3.select('#tooltip').classed('hidden', false);
