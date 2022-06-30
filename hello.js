@@ -17,9 +17,20 @@ function main() {
     var g = svg.append("g")
        .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
-    d3.csv("csv_mavi_sum.csv").then( function(data) {
+    var regLine = d3.line()
+        .x(function(d) {
+            return x(d.timestamp);
+        })
+        .y(function(d) {
+            return y(d.value);
+        });
+
+
+
+
+    d3.csv("month_value.csv").then( function(data) {
         xScale.domain(data.map(function(d) { return (d).timestamp }));
-        yScale.domain([0, d3.max(data, function(d) { return 300000; })]);
+        yScale.domain([0, d3.max(data, function(d) { return 4500; })]);
 
       /*  g.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -42,6 +53,7 @@ function main() {
             .attr("transform", function(d) {
                 return "rotate(-75)"
             });
+
         g.append("g")
             .call(d3.axisLeft(yScale).tickFormat(function(d){return d;}).ticks(10))
             .append("text")
@@ -52,7 +64,8 @@ function main() {
             .attr('stroke', 'black')
             .text('Anzahl Fahrzeuge')
 
-        g.append("path")
+
+       /* g.append("path")
             .datum(data)
             .attr("fill", "none")
             .attr("stroke", "green")
@@ -61,7 +74,7 @@ function main() {
                 .x(function(d) { return xScale(d.timestamp) })
                 .y(function(d) { return yScale(d.value) })
             )
-
+*/
         g.selectAll(".bar")
             .data(data)
             .enter().append("rect")
